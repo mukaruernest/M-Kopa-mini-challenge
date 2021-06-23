@@ -30,48 +30,49 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 - Over 50 years old
 
 **ANSWERS**
+
 **Select all the male customers from outside Nairobi.**
 
 `SELECT * FROM assessmentcustomers
-WHERE Gender = 'Male' AND Town != 'Nairobi';`
+ WHERE Gender = 'Male' AND Town != 'Nairobi';`
 
 **Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.**
 
 `SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining
 
-FROM assessmentcustomers;`
+ FROM assessmentcustomers;`
 
 **Using the table above, calculate the average customer age when joining. Use a sub-query, CTE or temporary table.**
 
 `WITH customerage AS 
-(SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
-SELECT AVG(AgeWhenJoining) FROM customerage;`
+ (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
+  SELECT AVG(AgeWhenJoining) FROM customerage;`
 
 **Still using the same table, calculate the average, maximum and minimum customer age when joining per gender.**
 
 `WITH customerage AS 
-(SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
-SELECT Gender, AVG(AgeWhenJoining) AS Average, MAX(AgeWhenJoining) AS Maximum, MIN(AgeWhenJoining) AS Minimum FROM customerage
-GROUP BY Gender;`
+ (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
+ SELECT Gender, AVG(AgeWhenJoining) AS Average, MAX(AgeWhenJoining) AS Maximum, MIN(AgeWhenJoining) AS Minimum FROM customerage
+ GROUP BY Gender;`
 
 **Select the 100 customers who generated the most sales. Show their MartCustomerId, Town and the number of sales each of them generated.**
 
 `SELECT assessmentcustomers.MartCustomerId, assessmentcustomers.Town, COUNT(assessmentsales.MartLoanId) AS Numberofsales FROM assessmentcustomers
-LEFT JOIN assessmentsales ON assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId
-GROUP BY assessmentcustomers.MartCustomerId
-ORDER BY Numberofsales DESC 
-LIMIT 100;`
+ LEFT JOIN assessmentsales ON assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId
+ GROUP BY assessmentcustomers.MartCustomerId
+ ORDER BY Numberofsales DESC 
+ LIMIT 100;`
 
 **How many customers have no sale? Show only the number of customers.**
 
 `SELECT COUNT(MartCustomerId) AS CustomersWithNoSales FROM assessmentcustomers
-WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId);`
+ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId);`
 
 **Select all the AssessmentSales table with an extra column that displays 1 when the ProductSubCategory is 'M-KOPA 4' and 0 for all the other ones. Call it IsMkopa4.**
 
 ` SELECT *, 
- DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
- FROM assessmentsales;`
+  DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
+  FROM assessmentsales;`
 
 **For each customer's age category below (age today), provide the total outstanding balance and the total amount paid in on the 01/08/2018. The results must all be from a single query.
 - Under 30 years old
@@ -86,12 +87,12 @@ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcus
     END) AS AgeCategory,
     assessmentdailyloaninfo.Outstandingbalance,
     assessmentdailyloaninfo.SumPaidInToDate
-FROM
+ FROM
     assessmentcustomers
         LEFT JOIN
     assessmentsales ON assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId
         LEFT JOIN
     assessmentdailyloaninfo ON assessmentsales.MartLoanId = assessmentdailyloaninfo.MartLoanId
-WHERE
+ WHERE
     ActivityDate = '2018-08-01'
-GROUP BY AgeCategory;`
+ GROUP BY AgeCategory;`
