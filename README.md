@@ -1,6 +1,9 @@
 # M-Kopa-mini-challenge
+
 SQL Test From M-kopa 
+
 Tables 
+
 AssessmentCustomers
 
 ![image](https://user-images.githubusercontent.com/10958742/123120438-fa7c8680-d44c-11eb-86d5-c7a9b3d0e67f.png)
@@ -33,8 +36,8 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 
 **Select all the male customers from outside Nairobi.**
 ```
-`SELECT * FROM assessmentcustomers
-WHERE Gender = 'Male' AND Town != 'Nairobi';`
+SELECT * FROM assessmentcustomers
+WHERE Gender = 'Male' AND Town != 'Nairobi';
 ```
 
 **Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.**
@@ -81,8 +84,8 @@ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcus
  FROM assessmentsales;
 ```
 
-**For each customer's age category below (age today), provide the total outstanding balance and the total amount paid in on the 01/08/2018. The results must all be from a single query.
-- Under 30 years old
+**For each customer's age category below (age today), provide the total outstanding balance and the total amount paid in on the 01/08/2018. The results must all be from a single query.**
+**- Under 30 years old
 -  Between 30 and 49 years old
 - Over 50 years old**
 ```
