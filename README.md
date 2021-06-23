@@ -78,8 +78,9 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 - Under 30 years old
 -  Between 30 and 49 years old
 - Over 50 years old**
-- 
-` SELECT 
+
+```
+ SELECT
     (CASE
         WHEN YEAR(NOW()) - YEAR(DateOfBirth) < 30 THEN 'UnderThirty'
         WHEN YEAR(NOW()) - YEAR(DateOfBirth) BETWEEN 30 AND 49 THEN 'Betweenthirtyandforty'
@@ -95,4 +96,5 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
     assessmentdailyloaninfo ON assessmentsales.MartLoanId = assessmentdailyloaninfo.MartLoanId
  WHERE
     ActivityDate = '2018-08-01'
- GROUP BY AgeCategory;`
+ GROUP BY AgeCategory;
+ ```
