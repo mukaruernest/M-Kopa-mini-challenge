@@ -2,13 +2,17 @@
 SQL Test From M-kopa 
 Tables 
 AssessmentCustomers
+
 ![image](https://user-images.githubusercontent.com/10958742/123120438-fa7c8680-d44c-11eb-86d5-c7a9b3d0e67f.png)
 
 AssessmentSales
+
 ![image](https://user-images.githubusercontent.com/10958742/123120502-09fbcf80-d44d-11eb-999a-77d7d859fb2f.png)
 
 AssessmentDailyLoanInfo
+
 __NB: A loan is created for each sale. This table includes the outstanding balance and the total amount paid for each loan every day after the sale is made._
+
 ![image](https://user-images.githubusercontent.com/10958742/123120523-0f591a00-d44d-11eb-9c6f-6c79cb6e167c.png)
 
 **QUESTIONS**
@@ -27,26 +31,31 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 
 **ANSWERS**
 **Select all the male customers from outside Nairobi.**
+
 `SELECT * FROM assessmentcustomers
 WHERE Gender = 'Male' AND Town != 'Nairobi';`
 
 **Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.**
+
 `Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.
 SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining
 FROM assessmentcustomers;`
 
 **Using the table above, calculate the average customer age when joining. Use a sub-query, CTE or temporary table.**
+
 `WITH customerage AS 
 (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
 SELECT AVG(AgeWhenJoining) FROM customerage;`
 
 **Still using the same table, calculate the average, maximum and minimum customer age when joining per gender.**
+
 `WITH customerage AS 
 (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
 SELECT Gender, AVG(AgeWhenJoining) AS Average, MAX(AgeWhenJoining) AS Maximum, MIN(AgeWhenJoining) AS Minimum FROM customerage
 GROUP BY Gender;`
 
 **Select the 100 customers who generated the most sales. Show their MartCustomerId, Town and the number of sales each of them generated.**
+
 `SELECT assessmentcustomers.MartCustomerId, assessmentcustomers.Town, COUNT(assessmentsales.MartLoanId) AS Numberofsales FROM assessmentcustomers
 LEFT JOIN assessmentsales ON assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId
 GROUP BY assessmentcustomers.MartCustomerId
@@ -54,10 +63,12 @@ ORDER BY Numberofsales DESC
 LIMIT 100;`
 
 **How many customers have no sale? Show only the number of customers.**
+
 `SELECT COUNT(MartCustomerId) AS CustomersWithNoSales FROM assessmentcustomers
 WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId);`
 
 **Select all the AssessmentSales table with an extra column that displays 1 when the ProductSubCategory is 'M-KOPA 4' and 0 for all the other ones. Call it IsMkopa4.**
+
 ` SELECT *, 
  DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
  FROM assessmentsales;`
@@ -66,6 +77,7 @@ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcus
 - Under 30 years old
 -  Between 30 and 49 years old
 - Over 50 years old**
+- 
 ` SELECT 
     (CASE
         WHEN YEAR(NOW()) - YEAR(DateOfBirth) < 30 THEN 'UnderThirty'
