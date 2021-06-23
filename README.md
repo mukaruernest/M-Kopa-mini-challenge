@@ -85,9 +85,9 @@ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcus
 ```
 
 **For each customer's age category below (age today), provide the total outstanding balance and the total amount paid in on the 01/08/2018. The results must all be from a single query.**
-**- Under 30 years old
--  Between 30 and 49 years old
-- Over 50 years old**
+**- Under 30 years old**
+**-  Between 30 and 49 years old**
+**- Over 50 years old**
 ```
 SELECT 
     (CASE
