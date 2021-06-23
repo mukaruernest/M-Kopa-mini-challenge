@@ -33,7 +33,6 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 **Select all the male customers from outside Nairobi.**
 
 `SELECT * FROM assessmentcustomers
-
 WHERE Gender = 'Male' AND Town != 'Nairobi';`
 
 **Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.**
