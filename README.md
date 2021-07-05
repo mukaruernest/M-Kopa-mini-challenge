@@ -3,9 +3,10 @@
 SQL Test From M-kopa 
 
 ## Table of Contents
-- Datasets
-- Question
-- Solution and Results
+- [Datasets](https://github.com/mukaruernest/M-Kopa-mini-challenge#datasets)
+- [Question](https://github.com/mukaruernest/M-Kopa-mini-challenge#question)
+- [Answers](https://github.com/mukaruernest/M-Kopa-mini-challenge#answers)
+
 ## Datasets 
 
 AssessmentCustomers
