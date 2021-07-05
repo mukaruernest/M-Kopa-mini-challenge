@@ -35,27 +35,27 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 **ANSWERS**
 
 **Select all the male customers from outside Nairobi.**
-```
+``` SQL
 SELECT * FROM assessmentcustomers
 WHERE Gender = 'Male' AND Town != 'Nairobi';
 ```
 
 **Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.**
 Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.
-```
+```SQL
 SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining
 FROM assessmentcustomers;
 ```
 
 **Using the table above, calculate the average customer age when joining. Use a sub-query, CTE or temporary table.**
-```
+```SQL
 WITH customerage AS 
 (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
 SELECT AVG(AgeWhenJoining) FROM customerage;
 ```
 
 **Still using the same table, calculate the average, maximum and minimum customer age when joining per gender.**
-```
+```SQL
 WITH customerage AS 
 (SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining FROM assessmentcustomers)
 SELECT Gender, AVG(AgeWhenJoining) AS Average, MAX(AgeWhenJoining) AS Maximum, MIN(AgeWhenJoining) AS Minimum FROM customerage
@@ -63,7 +63,7 @@ GROUP BY Gender;
 ```
 
 **Select the 100 customers who generated the most sales. Show their MartCustomerId, Town and the number of sales each of them generated.**
-```
+```SQL
 SELECT assessmentcustomers.MartCustomerId, assessmentcustomers.Town, COUNT(assessmentsales.MartLoanId) AS Numberofsales FROM assessmentcustomers
 LEFT JOIN assessmentsales ON assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId
 GROUP BY assessmentcustomers.MartCustomerId
@@ -72,13 +72,13 @@ LIMIT 100;
 ```
 
 **How many customers have no sale? Show only the number of customers.**
-```
+```SQL
 SELECT COUNT(MartCustomerId) AS CustomersWithNoSales FROM assessmentcustomers
 WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId);
 ```
 
 **Select all the AssessmentSales table with an extra column that displays 1 when the ProductSubCategory is 'M-KOPA 4' and 0 for all the other ones. Call it IsMkopa4.**
-```
+```SQL
  SELECT *, 
  DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
  FROM assessmentsales;
@@ -91,7 +91,7 @@ WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcus
 **-  Between 30 and 49 years old**
 
 **- Over 50 years old**
-```
+```SQL
 SELECT 
     (CASE
         WHEN YEAR(NOW()) - YEAR(DateOfBirth) < 30 THEN 'UnderThirty'
