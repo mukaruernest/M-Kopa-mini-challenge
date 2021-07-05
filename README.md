@@ -2,7 +2,11 @@
 
 SQL Test From M-kopa 
 
-Tables 
+## Table of Contents
+- Datasets
+- Question
+- Solution and Results
+## Datasets 
 
 AssessmentCustomers
 
@@ -18,7 +22,8 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 
 ![image](https://user-images.githubusercontent.com/10958742/123120523-0f591a00-d44d-11eb-9c6f-6c79cb6e167c.png)
 
-**QUESTIONS**
+## Question
+
 1. Select all the male customers from outside Nairobi.
 2. Select all the customers with an extra column containing the age they were when they joined. Name this column AgeWhenJoining.
 3. Using the table above, calculate the average customer age when joining. Use a sub-query, CTE or temporary table.
@@ -32,14 +37,14 @@ __NB: A loan is created for each sale. This table includes the outstanding balan
 -  Between 30 and 49 years old
 - Over 50 years old
 
-**ANSWERS**
+## Answers
 
 **Q1. Select all the male customers from outside Nairobi.**
   ``` SQL
   SELECT * FROM assessmentcustomers
   WHERE Gender = 'Male' AND Town != 'Nairobi';
   ```
-Results
+**Results**
 
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">MartCustomerId</th>
@@ -80,7 +85,7 @@ Select all the customers with an extra column containing the age they were when 
   SELECT *, YEAR(JoiningDate) - YEAR(DateofBirth) AS AgeWhenJoining
   FROM assessmentcustomers;
   ```
-Results 
+**Results** 
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">MartCustomerId</th>
 <th title="Field #2">Gender</th>
@@ -161,7 +166,7 @@ WITH customerage AS
 SELECT Gender, AVG(AgeWhenJoining) AS Average, MAX(AgeWhenJoining) AS Maximum, MIN(AgeWhenJoining) AS Minimum FROM customerage
 GROUP BY Gender;
 ```
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">Gender</th>
 <th title="Field #2">AverageAge</th>
@@ -190,7 +195,7 @@ GROUP BY assessmentcustomers.MartCustomerId
 ORDER BY Numberofsales DESC 
 LIMIT 100;
 ```
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">MartCustomerId</th>
 <th title="Field #2">Town</th>
@@ -233,7 +238,7 @@ Results
 SELECT COUNT(MartCustomerId) AS CustomersWithNoSales FROM assessmentcustomers
 WHERE NOT EXISTS (SELECT MartCustomerId FROM assessmentsales WHERE assessmentcustomers.MartCustomerId = assessmentsales.MartCustomerId);
 ```
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">CustomersWithNoSales</th>
 </tr></thead>
@@ -248,7 +253,7 @@ Results
  DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
  FROM assessmentsales;
 ```
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">MartCustomerId</th>
 <th title="Field #2">MartLoanId</th>
@@ -330,7 +335,7 @@ Results
  DENSE_RANK() OVER (PARTITION BY MartCustomerId ORDER BY DateOfSale ASC) AS SaleNumber
  FROM assessmentsales;
 ```
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1"># MartCustomerId</th>
 <th title="Field #2">MartLoanId</th>
@@ -432,7 +437,7 @@ WHERE
 GROUP BY AgeCategory;
 ```
 
-Results
+**Results**
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">AgeCategory</th>
 <th title="Field #2">Outstandingbalance</th>
